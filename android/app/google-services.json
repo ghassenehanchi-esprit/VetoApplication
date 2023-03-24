@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "791662008583",
+    "firebase_url": "https://medecin-772dc-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "medecin-772dc",
+    "storage_bucket": "medecin-772dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791662008583:android:1c45723f7251b702440da2",
+        "android_client_info": {
+          "package_name": "com.tunisia.medecinapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791662008583-3hd1mu7qffhad1cfs8sq04aktn75ma6j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2fmKNIpKUuoiX59UC4L0RyvTXv-6oFVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791662008583-3hd1mu7qffhad1cfs8sq04aktn75ma6j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "791662008583-i0p35n7k6qfjg666shqbib3nv3bcs69l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vetoapplication"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
