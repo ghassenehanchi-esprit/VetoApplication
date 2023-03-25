@@ -22,6 +22,8 @@ import './xd_composant11.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'components/CustomTextField.dart';
+
 class XDIPhone8SE1 extends StatefulWidget {
   const XDIPhone8SE1({Key? key}) : super(key: key);
 
@@ -58,30 +60,15 @@ class _AuthPageState extends State<XDIPhone8SE1> {
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
     bool _isLoading = false;
-    final TextField _emailfield=TextField(
-      controller: _emailController,
-      style: TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        hintText: 'E-mail',
-        filled: false,
-        alignLabelWithHint: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
-      ),);
-    final TextField _passwordfield=TextField(
-      controller: _passwordController,obscureText: true,
-      style: TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        hintText: 'Mot de passe',
-        filled: false,
-        alignLabelWithHint: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
-      ),);
+    final CustomTextField _emailfield=CustomTextField(
+      icon:Icons.email ,
+      hintText: 'E-mail',
+        );
+
+    final CustomTextField _passwordfield=CustomTextField(
+      icon:Icons.password_rounded ,
+      hintText: 'password',
+    );
 
   return Scaffold(
       backgroundColor: Colors.white70,
@@ -91,7 +78,7 @@ class _AuthPageState extends State<XDIPhone8SE1> {
       body:
            Center(
         child:  Stack(
-          children: [degrade(),
+          children: [
             Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -99,54 +86,40 @@ class _AuthPageState extends State<XDIPhone8SE1> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(
+                height: 150,
+              ),
+              _emailfield,
 
+            SizedBox(
+              height: 20,
+            ),
+              _passwordfield,
               Container(
-                width: 300,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF42F1A6), Color(0xFF6F76FC)],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  border: Border.all(
-                    width: 2,
-                    style: BorderStyle.solid,
-                    color: Colors.greenAccent,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 50),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        "Mot de passe oublié ?",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                child: _emailfield,
               ),
-
-
-
-
-              const SizedBox(height: 20.0),
-              Container(
-                width: 300,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF42F1A6), Color(0xFF6F76FC)],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  border: Border.all(
-                    width: 2,
-                    style: BorderStyle.solid,
-                    color: Colors.greenAccent,
-                  ),
-                ),
-                child: _passwordfield,
-              ),
-
-
-
-
               SizedBox(height: 40.0),
-
 
               SizedBox(
     width: 157.0,
@@ -235,63 +208,40 @@ class _AuthPageState extends State<XDIPhone8SE1> {
 
 
 
-    Container(
-    child: TextButton(
-    onPressed: () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-      );
-    },
-    child: Text(
-    "Mot de passe oublié ?",
-    style: TextStyle(
-    color: Colors.black,
-    fontSize: 16,
-    decoration: TextDecoration.underline,
-    ),
-    ),
-    ),
-    ),
+
 
    Align(
     alignment: Alignment.center,
-    child: Column(
-
-    children: <Widget>[
-    Text(
-    "Vous n'avez pas un compte ?",
-    style: TextStyle(
-    color: Colors.grey[600],
-    fontSize: 16.0,
+    child:
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Vous n'avez pas un compte ?",
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontSize: 16.0,
+            ),
+          ),
+          TextButton(
+          child: Text("S'inscrire",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+          onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignupPage()),
+              );
+          },
     ),
-    ),
-    SizedBox(height: 10.0),
-    SizedBox(
-    width: 157.0,
-    height: 44.0,
-    child:Stack(
-    children: [
-      XDComposant11(
-      myText: "S'inscrire",
-      onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SignupPage()),
-          );
-      },
-    ),
+        ],
+      ),
+   ),
 
-
-
-      ],
-    ),
-
-    ),
-
-    ],
-                ),
-              ),
 
 
           ],
