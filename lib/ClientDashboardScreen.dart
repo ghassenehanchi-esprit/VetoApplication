@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:vetoapplication/CustomBottomNavigationBar.dart';
-import 'package:vetoapplication/buttondeg.dart';
+import 'package:vetoapplication/components/buttondeg.dart';
 import 'package:vetoapplication/clientService.dart';
 import 'package:vetoapplication/degrade.dart';
 import 'package:vetoapplication/prendreRendezVous.dart';

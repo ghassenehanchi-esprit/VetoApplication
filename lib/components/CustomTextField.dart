@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final IconData icon;
+  final TextEditingController controller;
+  final bool obscureText;
 
   const CustomTextField({
     Key? key,
     required this.hintText,
     required this.icon,
+    required this.controller,
+    this.obscureText = false,
   }) : super(key: key);
 
   @override
@@ -17,7 +21,7 @@ class CustomTextField extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         gradient: LinearGradient(
-          colors: [Colors.grey.shade300, Colors.grey.shade400],
+          colors: [Colors.grey.shade400, Colors.grey.shade100],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -32,6 +36,8 @@ class CustomTextField extends StatelessWidget {
         ],
       ),
       child: TextField(
+        controller: controller,
+        obscureText: obscureText,
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(
@@ -49,6 +55,9 @@ class CustomTextField extends StatelessWidget {
             icon,
             color: Color(0xFF6f76fc),
           ),
+        ),
+        style: TextStyle(color: Color(0xFF6f76fc),
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

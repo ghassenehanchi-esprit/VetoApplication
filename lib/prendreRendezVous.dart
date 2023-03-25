@@ -3,6 +3,9 @@ import 'package:vetoapplication/CustomBottomNavigationBar.dart';
 import 'package:vetoapplication/medecin.dart';
 import 'package:vetoapplication/medecinService.dart';
 
+import 'components/DoctorInfoContainer.dart';
+import 'databasehelper.dart';
+
 class RendezVous extends StatefulWidget {
   const RendezVous({Key? key}) : super(key: key);
 
@@ -11,6 +14,16 @@ class RendezVous extends StatefulWidget {
 }
 
 class _RendezVousState extends State<RendezVous> {
+  final _tableName = 'medecin';
+  final _columnId = 'idMedecin';
+  final _columnName = 'nomMedecin';
+  final _columnPrenom = 'prenomMedecin';
+  final _columnSpecialite = 'specialiteMedecin';
+  final _columnTelephone = 'telMedecin';
+  final _columnEmail = 'emailMedecin';
+  final _columnPassword = 'passwordMedecin';
+  final _columnAdresse = 'adresseMedecin';
+  final _columnVille = 'villeMedecin';
   TextEditingController _controller = TextEditingController();
   late Future<List<Medecin>> doctors = Future.value([]);
 
@@ -26,6 +39,19 @@ class _RendezVousState extends State<RendezVous> {
     setState(() {
       doctors = Future.value(fetchedDoctors);
     });
+  }
+  Future<List<Medecin>> fetchMedecins() async {
+    try {
+      final conn = await DatabaseHelper().connection;
+      final results = await conn.query('SELECT idMedecin,nomMedecin,prenomMedecin,specialiteMedecin,telMedecin,emailMedecin,passwordMedecin,adresseMedecin,villeMedecin FROM $_tableName');
+      final medecins =
+      results.map((row) => Medecin.fromData(row.fields)).toList();
+      print('Fetched ${medecins.length} Medecins');
+      return medecins;
+    } catch (e) {
+      print('Error fetching Medecins: $e');
+      return []; // return an empty list if there is an error
+    }
   }
 
   @override
@@ -87,7 +113,7 @@ class _RendezVousState extends State<RendezVous> {
               ),
               Expanded(
                 child: FutureBuilder<List<Medecin>>(
-                  future: doctors,
+                  future: fetchMedecins(), // Use the fetchMedecins method to retrieve a list of doctors
                   builder: (BuildContext context, AsyncSnapshot<List<Medecin>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
@@ -98,22 +124,13 @@ class _RendezVousState extends State<RendezVous> {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (BuildContext context, int index) {
                           final medecin = snapshot.data![index];
-                          return Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey[300]!,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                          return DoctorInfoContainer(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
                                   radius: 30,
-                                 // backgroundImage: NetworkImage(medecin.photo),
+                                  //backgroundImage: NetworkImage(medecin.photo),
                                 ),
                                 SizedBox(width: 10),
                                 Expanded(
@@ -121,23 +138,24 @@ class _RendezVousState extends State<RendezVous> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        medecin.nom,
+
+                                        medecin.nom ?? '',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       Text(
-                                        medecin.specialite,
+                                        medecin.specialite ?? '',
                                         style: TextStyle(
                                           color: Colors.grey,
                                         ),
                                       ),
                                       Text(
-                                        medecin.adresse,
+                                        medecin.adresse ?? '',
                                       ),
                                       Text(
-                                        'Tél: ${medecin.telephone}',
+                                        'Tél: ${medecin.telephone ?? ''}',
                                       ),
                                     ],
                                   ),

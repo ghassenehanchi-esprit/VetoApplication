@@ -31,7 +31,7 @@ class buttondeg extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'GothamMedium',
                 fontSize: 12,
-                color:Colors.black,
+                color:Color(0xFF6F76FC),
               ),
               textAlign: TextAlign.center,
               softWrap: true,

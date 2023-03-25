@@ -22,6 +22,7 @@ import './xd_composant11.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'components/CustomButton.dart';
 import 'components/CustomTextField.dart';
 
 class XDIPhone8SE1 extends StatefulWidget {
@@ -61,73 +62,80 @@ class _AuthPageState extends State<XDIPhone8SE1> {
     final screenHeight = screenSize.height;
     bool _isLoading = false;
     final CustomTextField _emailfield=CustomTextField(
+      controller: _emailController,
       icon:Icons.email ,
       hintText: 'E-mail',
         );
 
     final CustomTextField _passwordfield=CustomTextField(
+      obscureText: true,
+      controller: _passwordController,
       icon:Icons.password_rounded ,
-      hintText: 'password',
+      hintText: 'Password',
     );
 
   return Scaffold(
-      backgroundColor: Colors.white70,
-
+    backgroundColor: Colors.transparent,
   resizeToAvoidBottomInset: true ,
 
       body:
-           Center(
+           Container(
+             decoration: BoxDecoration(
+               gradient: LinearGradient(
+                 colors: [Color(0xFF42F1A6), Color(0xFF6f76fc)],
+                 begin: Alignment.topCenter,
+                 end: Alignment.bottomCenter,
+               ),
+             ),
+             child: Center(
+
         child:  Stack(
           children: [
-            Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-            Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 150,
-              ),
-              _emailfield,
+              Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+              Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 150,
+                ),
+                _emailfield,
 
-            SizedBox(
-              height: 20,
-            ),
-              _passwordfield,
-              Container(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-                    );
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 50),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                        "Mot de passe oublié ?",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          decoration: TextDecoration.underline,
+              SizedBox(
+                height: 20,
+              ),
+                _passwordfield,
+                Container(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 50),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          "Mot de passe oublié ?",
+                          style: TextStyle(
+                            color:  Colors.white,
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 40.0),
+                SizedBox(height: 100.0),
 
-              SizedBox(
-    width: 157.0,
-    height: 44.0,
-    child:Stack(
-    children: [
 
-    XDComposant11(myText: "Se connecter",
+
+      CustomButton(text:"Se connecter",
 
     onPressed: () async {
     setState(() {
@@ -174,17 +182,17 @@ class _AuthPageState extends State<XDIPhone8SE1> {
       if (result2.isNotEmpty) {
           final photoDeProfil = result2.first['photo_profil'];
           if (photoDeProfil == null) {
-            // Navigate to the AddProfilePhotoScreen if the user has not uploaded a profile photo
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) =>
-                    AddProfilePhotoScreen(isMedecin: _isMedecin,
-                        idname: _idname,
-                        table: _table,
-                        id: _id),
-              ),
-            );
+              // Navigate to the AddProfilePhotoScreen if the user has not uploaded a profile photo
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) =>
+                      AddProfilePhotoScreen(isMedecin: _isMedecin,
+                          idname: _idname,
+                          table: _table,
+                          id: _id),
+                ),
+              );
           }  else {
     // Otherwise, navigate to the appropriate dashboard screen
     final route = _isMedecin ? ClientDashboardScreen(id: _id,) :  ClientDashboardScreen(id: _id,);
@@ -196,19 +204,9 @@ class _AuthPageState extends State<XDIPhone8SE1> {
     _isLoading = false;
     });
     },
-
-
     ),
     ],
-    )
-
     ),
-],),
-
-
-
-
-
 
    Align(
     alignment: Alignment.center,
@@ -217,25 +215,25 @@ class _AuthPageState extends State<XDIPhone8SE1> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Vous n'avez pas un compte ?",
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 16.0,
-            ),
+              "Vous n'avez pas un compte ?",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.0,
+              ),
           ),
           TextButton(
           child: Text("S'inscrire",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-              decoration: TextDecoration.underline,
-            ),
+              style: TextStyle(
+                color:  Colors.white,
+                fontSize: 13,
+                decoration: TextDecoration.underline,
+              ),
           ),
           onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignupPage()),
-              );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignupPage()),
+                );
           },
     ),
         ],
@@ -246,9 +244,12 @@ class _AuthPageState extends State<XDIPhone8SE1> {
 
           ],
     ),
-           ],),
-        ),
 
+    ],
+  ),
+
+  ),
+           ),
     );
 
 
