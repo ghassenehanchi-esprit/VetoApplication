@@ -9,6 +9,8 @@ import 'package:vetoapplication/components/buttondeg.dart';
 import 'package:vetoapplication/clientService.dart';
 import 'package:vetoapplication/degrade.dart';
 import 'package:vetoapplication/prendreRendezVous.dart';
+
+import 'components/NotificationIcon.dart';
 class ClientDashboardScreen extends StatefulWidget {
   final int? id;
 
@@ -47,95 +49,109 @@ class _ClientDashboardScreenState extends State<ClientDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          degrade(),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              child: Center(
-                child: Column(
-                  children: [
-                SizedBox(
-                  height: 20,
-                ),
-                      Row(
-
+      body: Center(
+        child: Stack(
+          children: [
+            degrade(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                child: Center(
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
                         children: [
-                          SizedBox(width: 20),
-
-                          if (_profileImage != null)
-                            CircleAvatar(
-                              radius:   40,
-                              backgroundImage: _profileImage!,
-                            ),
-                          SizedBox(width: 30),
-                          Text(
-                            'Bonjour,\nMonsieur',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: "GothamMedium",
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.left,
+                      SizedBox(
+                        height: 20,
+                      ),
+                          NotificationIcon(
+                            onPressed: (){},
+                            notificationCount: 1,
                           ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                            Row(
+
+                              children: [
+                                SizedBox(width: 20),
+
+                                if (_profileImage != null)
+                                  CircleAvatar(
+                                    radius:   40,
+                                    backgroundImage: _profileImage!,
+                                  ),
+                                SizedBox(width: 30),
+                                Text(
+                                  'Bonjour,\nMonsieur',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: "GothamMedium",
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+
+                              ],
+                            ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 100,
+                            ),
+
+
+                               Text(
+                                'Vous rencontrez des problèmes sanitaires ?',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "GothamMedium",
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                textAlign: TextAlign.center,
+
+                              ),
+                            Text(
+                              'Application vous rend service !',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "GothamLight",
+                                fontSize: 25,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              textAlign: TextAlign.center,
+
+                            ),
+
+                            SizedBox(
+                              height: 90,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: buttondeg(
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => RendezVous()),
+                                  );
+                                },
+                                myText: 'Pendre un rendez-vous',
+                              ),
+                            ),
+                          ],
+                        )
+
                         ],
                       ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 150,
-                      ),
-
-
-                         Text(
-                          'Vous rencontrez des problèmes sanitaires ?',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "GothamMedium",
-                            fontSize: 25,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          textAlign: TextAlign.center,
-
-                        ),
-                      Text(
-                        'Application vous rend service !',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "GothamLight",
-                          fontSize: 25,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        textAlign: TextAlign.center,
-
-                      ),
-
-                      SizedBox(
-                        height: 100,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: buttondeg(
-                          onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => RendezVous()),
-                            );
-                          },
-                          myText: 'Pendre un rendez-vous',
-                        ),
-                      ),
-                    ],
-                  )
-
-                  ],
+                    ),
+                  ),
                 ),
               ),
-            ),
 
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
 
       bottomNavigationBar: CustomBottomNavigationBar(),

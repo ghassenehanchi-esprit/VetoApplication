@@ -3,6 +3,7 @@ import 'package:vetoapplication/CustomBottomNavigationBar.dart';
 import 'package:vetoapplication/medecin.dart';
 import 'package:vetoapplication/medecinService.dart';
 
+import 'components/CustomButtonColoured.dart';
 import 'components/DoctorInfoContainer.dart';
 import 'databasehelper.dart';
 import 'degrade.dart';
@@ -64,9 +65,17 @@ class _RendezVousState extends State<RendezVous> {
           child: Expanded(
             child: Column(
               children: [
+              SizedBox(
+                height: 40,
+              ),
 
                 Text(
-                  'Prendre un Rendez-vous',
+                  'Prendre un\nRendez-vous',
+                  style: TextStyle(
+                    color:Colors.white,
+                    fontSize: 40,
+                    fontFamily: "GothamMedium",
+                  ),
                 ),
             Container(
               margin: EdgeInsets.fromLTRB(50,50,50,0),
@@ -129,28 +138,32 @@ class _RendezVousState extends State<RendezVous> {
                             final medecin = snapshot.data![index];
                             return DoctorInfoContainer(
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   CircleAvatar(
-                                    radius: 30,
+                                    radius: 40,
                                     //backgroundImage: NetworkImage(medecin.photo),
                                   ),
                                   SizedBox(width: 10),
-                                  Expanded(
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(
 
                                           medecin.nom ?? '',
                                           style: TextStyle(
+                                            color: Color(0xFF6f76fc),
                                             fontSize: 18,
-                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "GothamMedium",
                                           ),
                                         ),
                                         Text(
                                           medecin.specialite ?? '',
                                           style: TextStyle(
+                                            fontFamily: "GothamLight",
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -159,6 +172,11 @@ class _RendezVousState extends State<RendezVous> {
                                         ),
                                         Text(
                                           'Tél: ${medecin.telephone ?? ''}',
+                                        ),
+                                        CustomButtonColoured(
+                                          color:Color(0xFF6F76FC) ,
+                                          text: 'Demander',
+                                          onPressed: (){},
                                         ),
                                       ],
                                     ),
