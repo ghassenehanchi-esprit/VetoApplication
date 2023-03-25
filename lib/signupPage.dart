@@ -2,7 +2,9 @@
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vetoapplication/components/CustomButton.dart';
 import 'package:vetoapplication/databasehelper.dart';
 import 'package:vetoapplication/medecin.dart';
 import 'package:vetoapplication/Client.dart';
@@ -14,6 +16,8 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+
+import 'components/CustomTextField.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -92,245 +96,215 @@ class _SignupPageState extends State<SignupPage> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: const Icon(Icons.close),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF42F1A6), Color(0xFF6f76fc)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            const SizedBox(height: 70),
-            const Text(
-              'Inscription',
-              style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 70),
+          ),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 50),
 
-            TextFormField(
-              controller: _nomController,
-              decoration: const InputDecoration(labelText: 'Nom'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer votre nom';
-                }
-
-              },
-            ),
-            TextFormField(
-              controller: _prenomController,
-              decoration: const InputDecoration(labelText: 'Prénom'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer votre prénom';
-                }
-                return null;
-              },
-            ),
-
-            TextFormField(
-              controller: _telController,
-              decoration: const InputDecoration(labelText: 'Téléphone'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez saisir votre numéro de téléphone.';
-                }
-                if (!value.startsWith('+216')) {
-                  return 'Le numéro de téléphone doit commencer par +216.';
-                }
-
-              },
-            ),
-            TextFormField(
-
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez saisir votre email.';
-                  }
-                  if (!emailRegExp.hasMatch(value)) {
-                    return 'Veuillez saisir un email valide.';
-                  }
-
-                },
-              ),
-
-
-            TextFormField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Mot de passe'),
-              obscureText: true,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez saisir votre mot de passe.';
-                }
-                if (!passwordRegExp.hasMatch(value)) {
-                  return 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre, un caractère spécial, et être composé d\'au moins 8 caractères.';
-                }
-
-              },
-            ),
-            const SizedBox(height: 16),DropdownButtonFormField<String>(
-              value: _selectedRole,
-              decoration: InputDecoration(
-                labelText: 'Rôle',
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                filled: true,
-                fillColor: Colors.transparent, // set fillColor to transparent
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24.0),
-                  borderSide: BorderSide.none,
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Icon(Icons.close),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24.0),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24.0),
-                  borderSide: BorderSide.none,
-                ),
-                prefix: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xff42f1a6), Color(0xff6f76fc)],
-                      stops: [0.0, 1.0],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24.0),
-                      bottomLeft: Radius.circular(24.0),
+                const SizedBox(height: 70),
+                Container(
+                  margin: EdgeInsets.fromLTRB(50, 0, 0, 0),
+                  child: const Text(
+                    'Inscription',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
-                  child: Icon(Icons.person_outline, color: Colors.white),
                 ),
-                contentPadding:
-                EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 8),
-              ),
-              items: <String>['Client', 'Médecin']
-                  .map((String value) => DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              ))
-                  .toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedRole = newValue!;
-                });
-              },
-            ),
+                const SizedBox(height: 70),
 
-            if (_selectedRole == 'Médecin') ...[
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: _selectedSpeciality,
-                decoration: const InputDecoration(labelText: 'Spécialité'),
-                items: _specialities
-                    .map((String value) => DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                ))
-                    .toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedSpeciality = newValue!;
-                  });
-                },
-              ),
-            ],
+                CustomTextField(
+                  controller: _nomController,
+                   hintText: 'Nom',
+                  icon: Icons.person_outline,
+                ),
+                const SizedBox(height: 20),
+                CustomTextField(
+                  controller: _prenomController,
+                  hintText: 'Prénom',
+                  icon: Icons.person_outline,
+                ),
+                const SizedBox(height: 20),
+                CustomTextField(
+                  controller: _telController,
+                  hintText: 'Téléphone',
+                  icon: CupertinoIcons.phone,
+                ),
+                const SizedBox(height: 20),
 
-            TextFormField(
-              controller: _adresseController,
-              decoration: const InputDecoration(labelText: 'Adresse'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez saisir votre adresse';
-                }
+                CustomTextField(
+                    controller: _emailController,
+                  hintText: 'E-mail',
+                  icon: CupertinoIcons.mail,
+                  ),
+                const SizedBox(height: 20),
+                CustomTextField(
+                  controller: _passwordController,
+                  hintText: 'Mot de Passe',
+                  obscureText: true,
+                  icon: Icons.password_rounded,
+                ),
+                const SizedBox(height: 16),DropdownButtonFormField<String>(
+                  value: _selectedRole,
+                  decoration: InputDecoration(
+                    labelText: 'Rôle',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    filled: true,
+                    fillColor: Colors.transparent, // set fillColor to transparent
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    prefix: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xff42f1a6), Color(0xff6f76fc)],
+                          stops: [0.0, 1.0],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24.0),
+                          bottomLeft: Radius.circular(24.0),
+                        ),
+                      ),
+                      child: Icon(Icons.person_outline, color: Colors.white),
+                    ),
+                    contentPadding:
+                    EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 8),
+                  ),
+                  items: <String>['Client', 'Médecin']
+                      .map((String value) => DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  ))
+                      .toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedRole = newValue!;
+                    });
+                  },
+                ),
 
-              },
-            ),
-            TextFormField(
-              controller: _villeController,
-              decoration: const InputDecoration(labelText: 'Ville'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Veuillez saisir votre ville';
-                }
-
-              },
-            ),
-
-            const SizedBox(height: 32),
-            SizedBox(
-              width: 157.0,
-              height: 44.0,
-              child:Stack(
-                children: [
-                  XDComposant11(
-                    myText: "S'inscrire",
-                    onPressed: () async {
-
-      // Créer un nouvel utilisateur en fonction du type sélectionné
-      final utilisateur = _selectedRole == "Client"
-          ? Client(
-        nom: _nomController.text.trim(),
-        prenom: _prenomController.text.trim(),
-        telephone: _telController.text.trim(),
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-        adresse: _adresseController.text.trim(),
-        ville: _villeController.text.trim(),
-      )
-          : Medecin(
-        nom: _nomController.text.trim(),
-        prenom: _prenomController.text.trim(),
-        specialite: _selectedSpeciality.toString().trim(),
-        telephone: _telController.text.trim(),
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-        adresse: _adresseController.text.trim(),
-        ville: _villeController.text.trim(),
-      );
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-        );
-        // Insérer l'utilisateur dans la base de données
-        final databaseHelper = DatabaseHelper();
-        if (_selectedRole == "Client") {
-          ClientService().insertClient(utilisateur as Client);
-        } else {
-          MedecinService().insertMedecin(utilisateur as Medecin);
-        }
-        // Afficher un message d'erreur ou de succès en fonction du résultat de l'insertion
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => XDIPhone8SE1()),
-        );
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('The password provided is too weak.')));
-        } else if (e.code == 'email-already-in-use') {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('The account already exists for that email.')));
-        }
-      } catch (e) {
-        debugPrint(e.toString());
-      }
+                if (_selectedRole == 'Médecin') ...[
+                  const SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    value: _selectedSpeciality,
+                    decoration: const InputDecoration(labelText: 'Spécialité'),
+                    items: _specialities
+                        .map((String value) => DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    ))
+                        .toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedSpeciality = newValue!;
+                      });
                     },
                   ),
                 ],
-              ),
+
+                CustomTextField(
+                  controller: _adresseController,
+                  hintText: 'Adresse',
+                  icon: Icons.home,
+                ),
+                const SizedBox(height: 20),
+
+                CustomTextField(
+                  controller: _villeController,
+                  hintText: 'Ville',
+                  icon: Icons.place,
+                ),
+
+                const SizedBox(height: 32),
+
+                      CustomButton(
+                        text: "S'inscrire",
+                        onPressed: () async {
+
+        // Créer un nouvel utilisateur en fonction du type sélectionné
+        final utilisateur = _selectedRole == "Client"
+              ? Client(
+            nom: _nomController.text.trim(),
+            prenom: _prenomController.text.trim(),
+            telephone: _telController.text.trim(),
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+            adresse: _adresseController.text.trim(),
+            ville: _villeController.text.trim(),
+        )
+              : Medecin(
+            nom: _nomController.text.trim(),
+            prenom: _prenomController.text.trim(),
+            specialite: _selectedSpeciality.toString().trim(),
+            telephone: _telController.text.trim(),
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+            adresse: _adresseController.text.trim(),
+            ville: _villeController.text.trim(),
+        );
+        try {
+            UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text,
+            );
+            // Insérer l'utilisateur dans la base de données
+            final databaseHelper = DatabaseHelper();
+            if (_selectedRole == "Client") {
+              ClientService().insertClient(utilisateur as Client);
+            } else {
+              MedecinService().insertMedecin(utilisateur as Medecin);
+            }
+            // Afficher un message d'erreur ou de succès en fonction du résultat de l'insertion
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => XDIPhone8SE1()),
+            );
+        } on FirebaseAuthException catch (e) {
+            if (e.code == 'weak-password') {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('The password provided is too weak.')));
+            } else if (e.code == 'email-already-in-use') {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('The account already exists for that email.')));
+            }
+        } catch (e) {
+            debugPrint(e.toString());
+        }
+                        },
+                      ),
+                const SizedBox(height: 20),
+
+
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

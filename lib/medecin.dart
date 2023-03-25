@@ -28,15 +28,15 @@ class Medecin {
         _ville = ville;
 
   Medecin.fromData(Map<String, dynamic> data)
-      : _id = data['id'],
-        _nom = data['nom'],
-        _prenom = data['prenom'],
-        _specialite = data['specialite'],
-        _telephone = data['telephone'],
-        _email = data['email'],
-        _password = data['password'],
-        _adresse = data['adresse'],
-        _ville = data['ville'];
+      : _id = data['idMedecin'],
+        _nom = data['nomMedecin'],
+        _prenom = data['prenomMedecin'],
+        _specialite = data['specialiteMedecin'],
+        _telephone = data['telMedecin'],
+        _email = data['emailMedecin'],
+        _password = data['passwordMedecin'],
+        _adresse = data['adresseMedecin'],
+        _ville = data['villeMedecin'];
 
   Medecin.withAllData({
     required int id,

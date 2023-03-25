@@ -6,94 +6,83 @@ import 'package:vetoapplication/xd_composant11.dart';
 import 'package:vetoapplication/xdi_phone8_s_e1.dart';
 import 'package:adobe_xd/gradient_xd_transform.dart';
 
+import 'components/CustomButton.dart';
+import 'components/CustomTextField.dart';
+
 class ForgotPasswordPage extends StatefulWidget {
+
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  final TextEditingController _emailController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
   bool _isLoading = false;
-  final TextField _emailfield=TextField(
-    style: TextStyle(color: Colors.white),
-    decoration: InputDecoration(
-      hintText: 'E-mail',
-      filled: false,
-      alignLabelWithHint: true,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide.none,
-      ),prefixIcon: Icon(Icons.email),
 
-    ),
-
-
-
-  );
 
   @override
   Widget build(BuildContext context) {
+    final CustomTextField _emailfield=CustomTextField(
+      controller: _emailController,
+      icon:Icons.email ,
+      hintText: 'E-mail',
+    );
     return Scaffold(
+      backgroundColor: Colors.transparent,
 
-      body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.close),
-                ),
-                const SizedBox(height: 70),
-                const Text(
-                  'Récuperer votre mot de passe',
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 100),
-                Container(
-                  width: 300,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF42F1A6), Color(0xFF6F76FC)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    border: Border.all(
-                      width: 2,
-                      style: BorderStyle.solid,
-                      color: Colors.greenAccent,
-                    ),
-                  ),
-                  child: _emailfield,
-                ),
-
-                SizedBox(height: 20),
-
-    SizedBox(
-    width: 157.0,
-    height: 44.0,
-    child:
-   Stack(
-    children: [
-
-    XDComposant11(myText: "Envoyer",
-                  onPressed: _submit,
-
-                ),
-    ],
-   ),
-    ),
-              ],
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF42F1A6), Color(0xFF6f76fc)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
+        ),
+        child:  Center(
+          child: Column(
+
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const SizedBox(height: 40),
+
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.close),
+                    ),
+                    const SizedBox(height: 70),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(50, 0, 0, 0),
+                      child: const Text(
+                        'Récuperer votre mot de passe',
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 130),
+
+                      _emailfield,
+
+
+                    SizedBox(height: 30),
+
+
+
+      CustomButton(text: "Envoyer",
+                      onPressed: _submit,
+
+                    ),
+
+                  ],
+                ),
+        ),
+            ),
+
 
 
     );
